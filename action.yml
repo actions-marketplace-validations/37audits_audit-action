@@ -1,0 +1,44 @@
+name: 37 Audits
+description: Audit a website on every deploy and fail the workflow on security, performance, SEO or accessibility regressions.
+author: 37 Audits
+branding:
+  icon: check-circle
+  color: purple
+inputs:
+  api-key:
+    description: 37 Audits API key (tsa_live_...). Store it as an encrypted secret.
+    required: true
+  url:
+    description: Address of the monitored URL to audit. Set this or url-id.
+    required: false
+  url-id:
+    description: Id of the monitored URL to audit. Set this or url.
+    required: false
+  auditors:
+    description: Auditor ids to run, separated by commas or new lines. Default is every auditor enabled on the URL.
+    required: false
+  fail-on:
+    description: Lowest result that fails the step, "fail" (fail and error), "warning" (also warnings) or "never".
+    required: false
+    default: fail
+  timeout:
+    description: How long to wait for the auditors, e.g. 120s or 5m.
+    required: false
+    default: 5m
+  note:
+    description: Note stored with the run. Default is the repository and commit.
+    required: false
+outputs:
+  group_id:
+    description: Id of the audit run.
+  success_count:
+    description: Number of auditors that passed.
+  warning_count:
+    description: Number of auditors that reported a warning.
+  fail_count:
+    description: Number of auditors that reported a fail or an error.
+  results:
+    description: Every auditor result, as JSON.
+runs:
+  using: node24
+  main: index.mjs
